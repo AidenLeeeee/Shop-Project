@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Container, Button, Navbar, Nav } from "react-bootstrap";
+import shoes from "./data";
+import CardComponent from "./components/CardComponent";
 import "./App.css";
 
 function App() {
+  let [products, setProducts] = useState(shoes);
+
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
@@ -22,33 +27,9 @@ function App() {
 
       <div className="container">
         <div className="row">
-          <div className="col-md-4">
-            <img
-              src={process.env.PUBLIC_URL + "/img/shoe1.png"}
-              alt="shoe1"
-              width="80%"
-            />
-            <h4>Product Name</h4>
-            <p>Context</p>
-          </div>
-          <div className="col-md-4">
-            <img
-              src={process.env.PUBLIC_URL + "/img/shoe2.png"}
-              alt="shoe2"
-              width="80%"
-            />
-            <h4>Product Name</h4>
-            <p>Context</p>
-          </div>
-          <div className="col-md-4">
-            <img
-              src={process.env.PUBLIC_URL + "/img/shoe3.png"}
-              alt="shoe3"
-              width="80%"
-            />
-            <h4>Product Name</h4>
-            <p>Context</p>
-          </div>
+          {products.map((product, i) => {
+            return <CardComponent product={product} key={i} />;
+          })}
         </div>
       </div>
     </div>
