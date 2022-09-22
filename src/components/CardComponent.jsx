@@ -1,16 +1,23 @@
+import { useNavigate } from "react-router-dom";
+
 export default function CardComponent(props) {
+  const navigate = useNavigate();
   const product = props.product;
-  const id = props.product.id;
   return (
     <div className="col-md-4">
       <img
-        src={process.env.PUBLIC_URL + "/img/shoe" + (id + 1) + ".png"}
+        src={process.env.PUBLIC_URL + "/img/shoe" + product.id + ".png"}
         alt="shoe"
         width="80%"
+        onClick={moveToDetail}
       />
-      <h4>{product.title}</h4>
+      <h4 onClick={moveToDetail}>{product.title}</h4>
       <p>{product.brand}</p>
-      <p>USD {product.price}</p>
+      <p>${product.price}</p>
     </div>
   );
+
+  function moveToDetail() {
+    navigate("/detail/" + product.id);
+  }
 }

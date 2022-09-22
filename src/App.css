@@ -7,6 +7,10 @@
   background-repeat: no-repeat;
 }
 
+.navbar-brand {
+  cursor: pointer;
+}
+
 .App {
   text-align: center;
 }
