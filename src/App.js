@@ -57,7 +57,12 @@ function App() {
       </Navbar>
 
       <Routes>
-        <Route path="/" element={<MainComponent products={products} />} />
+        <Route
+          path="/"
+          element={
+            <MainComponent products={products} setProducts={setProducts} />
+          }
+        />
         <Route
           path="/detail/:id"
           element={<DetailComponent products={products} />}
