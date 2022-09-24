@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 export default function DetailComponent(props) {
   const { id } = useParams();
+  const products = props.products;
   const product = props.products.find((product) => product.id === Number(id));
   const [tab, setTab] = useState(0);
   const [fade, setFade] = useState("");
@@ -69,15 +70,23 @@ export default function DetailComponent(props) {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-      <TabContent tab={tab} />
+      <TabContent tab={tab} products={products} />
     </div>
   );
 }
 
-function TabContent({ tab }) {
+function TabContent(props) {
+  const products = props.products;
+  const tab = props.tab;
   return (
     <div>
-      {[<div>Content0</div>, <div>Content1</div>, <div>Content2</div>][tab]}
+      {
+        [
+          <div>{products[0].title}</div>,
+          <div>{products[1].title}</div>,
+          <div>{products[2].title}</div>,
+        ][tab]
+      }
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import CardComponent from "./CardComponent";
 import axios from "axios";
 import styled from "styled-components";
-import { useEffect } from "react";
 
 const StyledButton = styled.button`
   background-color: #fff;

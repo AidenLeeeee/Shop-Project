@@ -6,6 +6,7 @@ import shoes from "./data";
 import MainComponent from "./components/MainComponent";
 import EventComponent from "./components/EventComponent";
 import DetailComponent from "./components/DetailComponent";
+import MyCartComponent from "./components/MyCartComponent";
 
 function App() {
   let [products, setProducts] = useState(shoes);
@@ -52,6 +53,13 @@ function App() {
             >
               Event
             </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/my-cart");
+              }}
+            >
+              Cart
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -74,6 +82,7 @@ function App() {
             element={<p>S-Neakrz URBAN LIFESTYLE & CULTURE EVENT</p>}
           />
         </Route>
+        <Route path="/my-cart" element={<MyCartComponent />} />
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
     </div>
