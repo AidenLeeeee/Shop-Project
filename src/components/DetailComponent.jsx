@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../store";
+import styled from "styled-components";
 
 export default function DetailComponent(props) {
   const { id } = useParams();
@@ -8,6 +11,7 @@ export default function DetailComponent(props) {
   const product = props.products.find((product) => product.id === Number(id));
   const [tab, setTab] = useState(0);
   const [fade, setFade] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -34,7 +38,12 @@ export default function DetailComponent(props) {
           <h4 className="pt-5">{product.title}</h4>
           <p>{product.content}</p>
           <p>${product.price}</p>
-          <button className="btn btn-danger">Add to Bag</button>
+          <StyledButton
+            className="btn btn-dark"
+            onClick={() => dispatch(addToCart(product))}
+          >
+            Add to Bag
+          </StyledButton>
         </div>
       </div>
 
@@ -90,3 +99,11 @@ function TabContent(props) {
     </div>
   );
 }
+
+const StyledButton = styled.button`
+  transition: 0.2s;
+  &:hover {
+    background-color: grey;
+    border-color: grey;
+  }
+`;

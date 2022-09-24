@@ -50,6 +50,15 @@
   color: #61dafb;
 }
 
+.cart-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin: auto;
+  position: relative;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
