@@ -17,13 +17,23 @@ const cart = createSlice({
     },
     addToCart(state, product) {
       const { id, title } = product.payload;
-      const newItem = { id: id, name: title, count: 1 };
-      state.push(newItem);
+      const idx = state.findIndex((item) => item.id === id);
+      if (idx === -1) {
+        const newItem = { id: id, name: title, count: 1 };
+        state.push(newItem);
+      } else {
+        state[idx].count += 1;
+      }
+    },
+    deleteCart(state, id) {
+      const idx = state.findIndex((item) => item.id === id.payload);
+      state.splice(idx, 1);
     },
   },
 });
 
-export const { increaseQuantity, decreaseQuantity, addToCart } = cart.actions;
+export const { increaseQuantity, decreaseQuantity, addToCart, deleteCart } =
+  cart.actions;
 
 export default configureStore({
   reducer: {

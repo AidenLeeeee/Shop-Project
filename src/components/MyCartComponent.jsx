@@ -1,7 +1,9 @@
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { increaseQuantity, decreaseQuantity } from "../store";
+import { increaseQuantity, decreaseQuantity, deleteCart } from "../store";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 export default function MyCartComponent() {
   const cart = useSelector((state) => state.cart);
@@ -16,7 +18,7 @@ export default function MyCartComponent() {
             <th>Code</th>
             <th>Product</th>
             <th>Quantity</th>
-            <th>Update</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -34,13 +36,13 @@ export default function MyCartComponent() {
 function CartItemComponent({ item, dispatch }) {
   return (
     <tr>
-      <td>
+      <td width="25%">
         <div className="cart-box">{item.id}</div>
       </td>
-      <td>
+      <td width="25%">
         <div className="cart-box">{item.name}</div>
       </td>
-      <td>
+      <td width="25%">
         <div className="cart-box">
           <StyledButton
             disabled={item.count === 1}
@@ -54,9 +56,14 @@ function CartItemComponent({ item, dispatch }) {
           </StyledButton>
         </div>
       </td>
-      <td>
+      <td width="25%">
         <div className="cart-box">
-          <button>+</button>
+          <button
+            className="cart-delete-btn"
+            onClick={() => dispatch(deleteCart(item.id))}
+          >
+            <FontAwesomeIcon icon={faTrashCan} />
+          </button>
         </div>
       </td>
     </tr>
@@ -73,14 +80,13 @@ const StyledButton = styled.button`
   border-radius: 5px;
   background-color: #000;
   color: #fff;
-  position: absolute;
   &:hover {
     background-color: grey;
   }
   &:first-child {
-    left: 50px;
+    margin-right: 20px;
   }
   &:last-child {
-    right: 50px;
+    margin-left: 20px;
   }
 `;

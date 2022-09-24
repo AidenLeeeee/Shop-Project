@@ -7,10 +7,22 @@ import MainComponent from "./components/MainComponent";
 import EventComponent from "./components/EventComponent";
 import DetailComponent from "./components/DetailComponent";
 import MyCartComponent from "./components/MyCartComponent";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserShield } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   let [products, setProducts] = useState(shoes);
   let navigate = useNavigate();
+
+  let result = useQuery(["작명"], () => {
+    return axios
+      .get("https://codingapple1.github.io/userdata.json")
+      .then((res) => {
+        return res.data;
+      });
+  });
 
   return (
     <div className="App">
@@ -60,6 +72,14 @@ function App() {
             >
               Cart
             </Nav.Link>
+          </Nav>
+          <Nav className="ms-auto user-box">
+            <FontAwesomeIcon icon={faUserShield} className="user-box-icon" />{" "}
+            {result.isLoading ? (
+              "Loading..."
+            ) : (
+              <strong>{result.data.name}</strong>
+            )}
           </Nav>
         </Container>
       </Navbar>
