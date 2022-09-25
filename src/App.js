@@ -1,22 +1,23 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import shoes from "./data";
 import MainComponent from "./components/MainComponent";
 import EventComponent from "./components/EventComponent";
-import DetailComponent from "./components/DetailComponent";
-import MyCartComponent from "./components/MyCartComponent";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserShield } from "@fortawesome/free-solid-svg-icons";
 
+const DetailComponent = lazy(() => import("./components/DetailComponent"));
+const MyCartComponent = lazy(() => import("./components/MyCartComponent"));
+
 function App() {
   let [products, setProducts] = useState(shoes);
   let navigate = useNavigate();
 
-  let result = useQuery(["작명"], () => {
+  let result = useQuery(["react-query"], () => {
     return axios
       .get("https://codingapple1.github.io/userdata.json")
       .then((res) => {
@@ -83,28 +84,33 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <MainComponent products={products} setProducts={setProducts} />
-          }
-        />
-        <Route
-          path="/detail/:id"
-          element={<DetailComponent products={products} />}
-        />
-        <Route path="/event" element={<EventComponent />}>
-          <Route path="one" element={<p>New Markdowns: Up to 40% Off</p>} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
           <Route
-            path="two"
-            element={<p>S-Neakrz URBAN LIFESTYLE & CULTURE EVENT</p>}
+            path="/"
+            element={
+              <MainComponent products={products} setProducts={setProducts} />
+            }
           />
-        </Route>
-        <Route path="/my-cart" element={<MyCartComponent />} />
-        <Route path="*" element={<div>Not Found</div>} />
-      </Routes>
+          <Route
+            path="/detail/:id"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <DetailComponent products={products} />
+              </Suspense>
+            }
+          />
+          <Route path="/event" element={<EventComponent />}>
+            <Route path="one" element={<p>New Markdowns: Up to 40% Off</p>} />
+            <Route
+              path="two"
+              element={<p>S-Neakrz URBAN LIFESTYLE & CULTURE EVENT</p>}
+            />
+          </Route>
+          <Route path="/my-cart" element={<MyCartComponent />} />
+          <Route path="*" element={<div>Not Found</div>} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
